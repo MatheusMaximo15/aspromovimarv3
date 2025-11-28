@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carregando... | ASPROMOVIMAR</title>
+  <meta name="description"
+    content="Notícia da ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ASPROMOVIMAR">
+  <meta property="og:title" content="Carregando...">
+  <meta property="og:description" content="Notícia da ASPROMOVIMAR">
+  <meta property="og:url" content="">
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/magic-ui.css">
+
+  <!-- Font Awesome for share icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- HEADER IDÊNTICO À HOMEPAGE -->
+  <header class="animate-fade-in">
+    <div class="container">
+      <h1>ASPROMOVIMAR</h1>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav">
+        <a href="/" class="link-underline">Início</a>
+        <a href="/#sobre" class="link-underline">Sobre</a>
+        <a href="/#noticias" class="link-underline">Notícias</a>
+        <a href="/#eventos" class="link-underline">Eventos</a>
+        <a href="/#acoes" class="link-underline">Ações Sociais</a>
+        <a href="/admin" class="link-underline">Administração</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="noticia-page">
+    <!-- Loading State -->
+    <div id="loading-state" class="loading-state">
+      <div class="container">
+        <div class="loading-spinner"></div>
+        <p>Carregando notícia...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-state" class="error-state" style="display: none;">
+      <div class="container">
+        <div class="error-content">
+          <h2>Notícia não encontrada</h2>
+          <p id="error-message">A notícia que você está procurando não foi encontrada ou não está mais disponível.</p>
+          <a href="/" class="btn btn-primary">Voltar ao Início</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content State -->
+    <div id="content-state" class="container" style="display: none;">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Início</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="/#noticias">Notícias</a>
+        <span class="breadcrumb-separator">/</span>
+        <span id="breadcrumb-title">...</span>
+      </nav>
+
+      <!-- Grid Layout: Main Content + Sidebar -->
+      <div class="noticia-grid">
+        <!-- Main Article -->
+        <article class="noticia-main">
+          <header class="noticia-header-modern">
+            <div class="noticia-meta-top">
+              <span class="noticia-categoria-badge" id="noticia-categoria">Comunicado</span>
+              <time id="noticia-data" datetime="" class="noticia-date-modern">...</time>
+            </div>
+            <h1 class="noticia-titulo-hero" id="noticia-titulo">Carregando...</h1>
+          </header>
+
+          <div class="noticia-content-rich" id="noticia-content">
+            <p>Carregando conteúdo...</p>
+          </div>
+
+          <footer class="noticia-footer-modern">
+            <a href="/#noticias" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Voltar para Notícias
+            </a>
+          </footer>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="noticia-sidebar">
+          <!-- Info Card -->
+          <div class="noticia-info-card">
+            <h3><i class="fas fa-info-circle"></i> Informações</h3>
+            <div class="info-item">
+              <i class="fas fa-calendar-alt"></i>
+              <div>
+                <strong>Publicado em</strong>
+                <p id="sidebar-data">...</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-tag"></i>
+              <div>
+                <strong>Categoria</strong>
+                <p id="sidebar-categoria">...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Share Buttons -->
+          <div class="share-card">
+            <h4><i class="fas fa-share-alt"></i> Compartilhar</h4>
+            <button class="btn-share btn-share-facebook" onclick="compartilharFacebook()"
+              aria-label="Compartilhar no Facebook">
+              <i class="fab fa-facebook-f"></i>
+              <span>Facebook</span>
+            </button>
+            <button class="btn-share btn-share-whatsapp" onclick="compartilharWhatsApp()"
+              aria-label="Compartilhar no WhatsApp">
+              <i class="fab fa-whatsapp"></i>
+              <span>WhatsApp</span>
+            </button>
+            <button class="btn-share btn-share-twitter" onclick="compartilharTwitter()"
+              aria-label="Compartilhar no Twitter">
+              <i class="fab fa-twitter"></i>
+              <span>Twitter</span>
+            </button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER IDÊNTICO À HOMEPAGE -->
+  <footer class="reveal">
+    <div class="container">
+      <p>&copy; 2025 ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina. Todos os direitos
+        reservados.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Trabalhando pela nossa comunidade | Bairro Vila Maria Regina
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/animations.js"></script>
+  <script src="/js/noticia-detail.js"></script>
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      mainNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+
+</html>

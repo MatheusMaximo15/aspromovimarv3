@@ -1,0 +1,29 @@
+{
+  "name": "aspromovimar-site",
+  "version": "1.0.0",
+  "description": "Site institucional da ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "associacao",
+    "moradores",
+    "vila-maria-regina",
+    "aspromovimar"
+  ],
+  "author": "ASPROMOVIMAR",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "sanitize-html": "^2.17.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

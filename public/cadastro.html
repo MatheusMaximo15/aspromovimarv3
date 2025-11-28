@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscrição em Eventos | ASPROMOVIMAR</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>ASPROMOVIMAR</h1>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav">
+        <a href="/">Início</a>
+        <a href="/#sobre">Sobre</a>
+        <a href="/#noticias">Notícias</a>
+        <a href="/#eventos">Eventos</a>
+        <a href="/#acoes">Ações Sociais</a>
+        <a href="/admin">Administração</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="form-container">
+      <p style="text-align: center; color: var(--text-light); margin-bottom: 1rem;">
+        <a href="/" style="color: var(--primary-color); text-decoration: none;">← Voltar ao Início</a>
+      </p>
+      <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 1rem;">
+        Inscrição em Eventos
+      </h2>
+      <p style="text-align: center; color: var(--text-light); margin-bottom: 2rem;">
+        Selecione o evento e preencha o formulário abaixo para realizar sua inscrição.
+        Os campos marcados com * são obrigatórios.
+      </p>
+
+      <div id="error-message" class="error-message"></div>
+      <div id="success-message" class="success-message"></div>
+
+      <form id="cadastro-form">
+        <div class="form-group">
+          <label for="evento_id">Selecione o Evento *</label>
+          <select id="evento_id" name="evento_id" required>
+            <option value="">Carregando eventos...</option>
+          </select>
+          <small>Escolha o evento para o qual deseja se inscrever</small>
+        </div>
+
+        <div class="form-group">
+          <label for="nome_completo">Nome Completo *</label>
+          <input
+            type="text"
+            id="nome_completo"
+            name="nome_completo"
+            required
+            minlength="3"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="cpf">CPF *</label>
+          <input
+            type="text"
+            id="cpf"
+            name="cpf"
+            required
+            placeholder="000.000.000-00"
+            maxlength="14"
+          >
+          <small>Digite apenas números, sem pontos ou traços</small>
+        </div>
+
+        <div class="form-group">
+          <label for="endereco">Endereço Completo *</label>
+          <input
+            type="text"
+            id="endereco"
+            name="endereco"
+            required
+            minlength="5"
+            placeholder="Rua, número, bairro"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="telefone">Telefone *</label>
+          <input
+            type="tel"
+            id="telefone"
+            name="telefone"
+            required
+            placeholder="(00) 00000-0000"
+            maxlength="15"
+          >
+          <small>Digite apenas números com DDD</small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="seuemail@exemplo.com"
+          >
+          <small>Opcional</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          Enviar Cadastro
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="/js/cadastro.js"></script>
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      mainNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

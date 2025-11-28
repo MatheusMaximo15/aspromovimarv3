@@ -1,0 +1,229 @@
+================================================================================
+  ASPROMOVIMAR - Site da Associação de Proprietários e Moradores do Vila Maria Regina
+================================================================================
+
+IMPORTANTE: Você precisa instalar o Node.js primeiro!
+
+================================================================================
+  PASSO 1: INSTALAR NODE.JS
+================================================================================
+
+1. Acesse: https://nodejs.org/
+2. Baixe a versão LTS (Long Term Support)
+3. Execute o instalador
+4. Clique em "Next" até completar a instalação
+5. Reinicie o computador (importante!)
+
+================================================================================
+  PASSO 2: VERIFICAR INSTALAÇÃO
+================================================================================
+
+Abra o PowerShell e digite:
+
+    node --version
+
+Deve aparecer: v20.x.x (ou similar)
+
+Digite também:
+
+    npm --version
+
+Deve aparecer: 10.x.x (ou similar)
+
+Se aparecer "comando não reconhecido", volte ao Passo 1.
+
+================================================================================
+  PASSO 3: INSTALAR O PROJETO
+================================================================================
+
+No PowerShell, navegue até a pasta do projeto:
+
+    cd C:\Users\adm.mmaximo.ICG\Desktop\ASPROMOVIMAR
+
+Instale as dependências:
+
+    npm install
+
+Aguarde alguns minutos...
+
+================================================================================
+  PASSO 4: INICIAR O SERVIDOR
+================================================================================
+
+    npm start
+
+Você verá:
+
+    ===========================================
+      ASPROMOVIMAR - Sistema Web
+    ===========================================
+      Servidor rodando em: http://localhost:3000
+    ===========================================
+
+================================================================================
+  PASSO 5: ACESSAR NO NAVEGADOR
+================================================================================
+
+Abra seu navegador e acesse:
+
+    http://localhost:3000           (Página Inicial)
+    http://localhost:3000/cadastro  (Cadastro de Moradores)
+    http://localhost:3000/admin     (Painel Administrativo)
+
+Login do Admin:
+    Usuário: admin
+    Senha: aspromovimar2025
+
+================================================================================
+  ESTRUTURA DO PROJETO
+================================================================================
+
+ASPROMOVIMAR/
+├── LEIA-ME-PRIMEIRO.txt    ← Você está aqui!
+├── INSTALL.md              ← Guia completo de instalação
+├── QUICKSTART.md           ← Guia rápido de uso
+├── README.md               ← Documentação completa do projeto
+├── MIGRATION.md            ← Migração para banco de dados
+│
+├── src/                    ← Código do backend (Node.js)
+│   ├── server.js           ← Servidor principal
+│   ├── config/             ← Configurações
+│   ├── data/               ← Acesso a dados
+│   ├── services/           ← Lógica de negócio
+│   ├── api/                ← Rotas e controllers
+│   └── utils/              ← Utilitários
+│
+├── public/                 ← Frontend (páginas web)
+│   ├── index.html          ← Página inicial
+│   ├── cadastro.html       ← Formulário de cadastro
+│   ├── admin.html          ← Painel admin
+│   ├── css/                ← Estilos
+│   └── js/                 ← JavaScript
+│
+├── data/                   ← Dados salvos
+│   └── beneficiarios.json  ← Cadastros (JSON)
+│
+└── package.json            ← Dependências do projeto
+
+================================================================================
+  FUNCIONALIDADES
+================================================================================
+
+✓ Página inicial institucional
+✓ Informações sobre a Ação Mesa Brasil
+✓ Formulário de cadastro para moradores
+✓ Validação de CPF
+✓ Painel administrativo com login
+✓ Listagem de cadastros
+✓ Filtros por nome, CPF e status
+✓ Aprovar/reprovar cadastros
+✓ Exportar para CSV
+✓ Preparado para migração futura para banco de dados
+
+================================================================================
+  COMANDOS PRINCIPAIS
+================================================================================
+
+Iniciar servidor:
+    npm start
+
+Parar servidor:
+    Ctrl + C
+
+Reinstalar dependências (se der erro):
+    npm install
+
+Usar outra porta (se 3000 estiver ocupada):
+    $env:PORT=3001
+    npm start
+
+Fazer backup dos dados:
+    Copy-Item data\beneficiarios.json data\backup.json
+
+================================================================================
+  SOLUÇÃO DE PROBLEMAS
+================================================================================
+
+Erro "npm não é reconhecido":
+    → Instale o Node.js (veja Passo 1)
+    → Reinicie o computador
+    → Abra um NOVO PowerShell
+
+Erro "Cannot find module":
+    → Execute: npm install
+
+Erro "Port 3000 is already in use":
+    → Use outra porta: $env:PORT=3001 e depois npm start
+    → Ou encerre processos: Stop-Process -Name node -Force
+
+Servidor não inicia:
+    → Veja se há erros no terminal
+    → Certifique-se de estar na pasta correta
+    → Tente: npm install e depois npm start
+
+================================================================================
+  DOCUMENTAÇÃO COMPLETA
+================================================================================
+
+Para mais detalhes, abra estes arquivos:
+
+1. INSTALL.md     → Instalação detalhada e troubleshooting
+2. QUICKSTART.md  → Guia rápido de uso
+3. README.md      → Documentação completa do projeto
+4. MIGRATION.md   → Como migrar para PostgreSQL/MongoDB
+
+================================================================================
+  SUPORTE E AJUDA
+================================================================================
+
+Node.js oficial:    https://nodejs.org/
+Tutoriais:          https://developer.mozilla.org/pt-BR/
+Stack Overflow:     https://stackoverflow.com/
+
+================================================================================
+  PRIMEIRO TESTE
+================================================================================
+
+1. Inicie o servidor: npm start
+
+2. Acesse: http://localhost:3000/cadastro
+
+3. Preencha o formulário:
+   - Nome: João da Silva
+   - CPF: 12345678909
+   - Endereço: Rua Teste, 123, Vila Maria Regina
+   - Telefone: 21987654321
+   - Nº Pessoas: 4
+   - Situação: Família em situação de vulnerabilidade
+
+4. Clique em "Enviar Cadastro"
+
+5. Acesse: http://localhost:3000/admin
+   Login: admin / aspromovimar2025
+
+6. Veja o cadastro criado!
+
+================================================================================
+  CUSTOMIZAÇÃO RÁPIDA
+================================================================================
+
+Alterar senha admin:
+    Edite: src/config/config.js
+    Encontre: auth.admin.password
+    Altere para sua senha
+
+Alterar cores do site:
+    Edite: public/css/styles.css
+    Encontre: :root
+    Altere as variáveis --primary-color, etc.
+
+Alterar textos:
+    Edite os arquivos HTML na pasta public/
+
+================================================================================
+
+Desenvolvido para ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina
+
+Projeto completo e funcional pronto para uso!
+
+================================================================================

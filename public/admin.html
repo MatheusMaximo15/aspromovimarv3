@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração | ASPROMOVIMAR</title>
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <!-- Quill.js Rich Text Editor -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+</head>
+
+<body>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <header>
+    <div class="container">
+      <h1>ASPROMOVIMAR</h1>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav">
+        <a href="/">Início</a>
+        <a href="/#sobre">Sobre</a>
+        <a href="/#noticias">Notícias</a>
+        <a href="/#eventos">Eventos</a>
+        <a href="/#acoes">Ações Sociais</a>
+        <a href="/admin">Administração</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="login-section" class="login-form">
+    <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 1.5rem;">
+      Login Administrativo
+    </h2>
+
+    <div id="login-error" class="error-message"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Usuário</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        Entrar
+      </button>
+    </form>
+  </div>
+
+  <div id="admin-section" class="admin-container container" style="display: none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <h2 style="color: var(--primary-color);">Painel Administrativo</h2>
+      <button id="logout-btn" class="btn btn-small">Sair</button>
+    </div>
+
+    <div style="margin-bottom: 2rem;">
+      <div style="display: flex; gap: 1rem; border-bottom: 2px solid #e5e7eb;">
+        <button class="tab-btn active" data-tab="inscricoes">Inscrições por Evento</button>
+        <button class="tab-btn" data-tab="cadastros">Cadastros Manuais</button>
+        <button class="tab-btn" data-tab="conteudo">Gerenciar Conteúdo</button>
+      </div>
+    </div>
+
+    <!-- ABA INSCRIÇÕES POR EVENTO -->
+    <div id="tab-inscricoes" class="tab-content active">
+      <div style="margin-bottom: 1.5rem;">
+        <h3>Filtrar por Evento</h3>
+        <div class="form-group" style="max-width: 500px;">
+          <label for="filtro-evento">Selecione o Evento</label>
+          <select id="filtro-evento"
+            style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px; font-size: 1rem;">
+            <option value="">Todos os eventos</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="stats-inscricoes"
+        style="margin-bottom: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div
+          style="background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+          <h3 style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 0.5rem;">Total de Inscrições</h3>
+          <p id="stat-insc-total" style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">0</p>
+        </div>
+
+        <div
+          style="background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+          <h3 style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 0.5rem;">Pendentes</h3>
+          <p id="stat-insc-pendente" style="font-size: 2rem; font-weight: 700; color: #d97706;">0</p>
+        </div>
+
+        <div
+          style="background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+          <h3 style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 0.5rem;">Aprovadas</h3>
+          <p id="stat-insc-aprovado" style="font-size: 2rem; font-weight: 700; color: var(--success-color);">0</p>
+        </div>
+
+        <div
+          style="background-color: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+          <h3 style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 0.5rem;">Reprovadas</h3>
+          <p id="stat-insc-reprovado" style="font-size: 2rem; font-weight: 700; color: var(--error-color);">0</p>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1rem; display: flex; justify-content: flex-end;">
+        <button id="export-inscricoes-csv-btn" class="btn btn-small">Exportar CSV</button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Evento</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Telefone</th>
+              <th>Data Inscrição</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="inscricoes-table">
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-light);">
+                Carregando...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-cadastros" class="tab-content">
+      <div class="form-container" style="margin-bottom: 2rem;">
+        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Cadastro Manual de Inscrição em Evento</h3>
+        <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+          Use este formulário para inscrever manualmente moradores que informarem os dados pelo telefone ou
+          presencialmente.
+        </p>
+
+        <div id="manual-error-message" class="error-message"></div>
+        <div id="manual-success-message" class="success-message"></div>
+
+        <form id="manual-cadastro-form">
+          <div class="form-group">
+            <label for="manual_evento_id">Selecione o Evento *</label>
+            <select id="manual_evento_id" name="evento_id" required>
+              <option value="">Carregando eventos...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="manual_nome_completo">Nome Completo *</label>
+            <input type="text" id="manual_nome_completo" name="nome_completo" required minlength="3">
+          </div>
+
+          <div class="form-group">
+            <label for="manual_cpf">CPF *</label>
+            <input type="text" id="manual_cpf" name="cpf" required placeholder="000.000.000-00" maxlength="14">
+            <small>Digite apenas números, sem pontos ou traços</small>
+          </div>
+
+          <div class="form-group">
+            <label for="manual_endereco">Endereço Completo *</label>
+            <input type="text" id="manual_endereco" name="endereco" required minlength="5"
+              placeholder="Rua, número, bairro">
+          </div>
+
+          <div class="form-group">
+            <label for="manual_telefone">Telefone *</label>
+            <input type="tel" id="manual_telefone" name="telefone" required placeholder="(00) 00000-0000"
+              maxlength="15">
+            <small>Digite apenas números com DDD</small>
+          </div>
+
+          <div class="form-group">
+            <label for="manual_numero_pessoas_residencia">Número de Pessoas na Residência *</label>
+            <input type="number" id="manual_numero_pessoas_residencia" name="numero_pessoas_residencia" required min="1"
+              max="20">
+          </div>
+
+          <div class="form-group">
+            <label for="manual_observacoes">Observações</label>
+            <textarea id="manual_observacoes" name="observacoes" rows="3"
+              placeholder="Informações adicionais sobre a família, situação, etc."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="manual_email">E-mail</label>
+            <input type="email" id="manual_email" name="email" placeholder="seuemail@exemplo.com">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Salvar Cadastro Manual
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div id="tab-conteudo" class="tab-content">
+      <div style="margin-bottom: 2rem;">
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+          <button class="subtab-btn active" data-subtab="noticias">Notícias</button>
+          <button class="subtab-btn" data-subtab="eventos">Eventos</button>
+        </div>
+
+        <!-- NOTÍCIAS -->
+        <div id="subtab-noticias" class="subtab-content active">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>Gerenciar Notícias</h3>
+            <button id="btn-nova-noticia" class="btn btn-primary">Nova Notícia</button>
+          </div>
+
+          <div id="form-noticia"
+            style="display: none; background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+            <h4 id="form-noticia-titulo">Nova Notícia</h4>
+            <form id="noticia-form">
+              <input type="hidden" id="noticia-id">
+
+              <div class="form-group">
+                <label for="noticia-titulo">Título *</label>
+                <input type="text" id="noticia-titulo" required minlength="3">
+              </div>
+
+              <div class="form-group">
+                <label for="noticia-descricao-editor">Descrição *</label>
+                <div id="noticia-descricao-editor"
+                  style="min-height: 300px; background: white; border: 1px solid var(--border-color); border-radius: 4px;">
+                </div>
+                <input type="hidden" id="noticia-descricao" required>
+                <small>Use a barra de ferramentas para formatar o texto, adicionar imagens e mais.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="noticia-categoria">Categoria</label>
+                <select id="noticia-categoria">
+                  <option value="Comunicado">Comunicado</option>
+                  <option value="Evento">Evento</option>
+                  <option value="Ação Social">Ação Social</option>
+                  <option value="Notícia">Notícia</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="noticia-link">Link (opcional)</label>
+                <input type="url" id="noticia-link">
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="noticia-ativa" checked>
+                  Notícia ativa (visível no site)
+                </label>
+              </div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="button" id="btn-cancelar-noticia" class="btn btn-small">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="lista-noticias" class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Categoria</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="noticias-table">
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 2rem;">Carregando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- EVENTOS -->
+        <div id="subtab-eventos" class="subtab-content">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>Gerenciar Eventos</h3>
+            <button id="btn-novo-evento" class="btn btn-primary">Novo Evento</button>
+          </div>
+
+          <div id="form-evento"
+            style="display: none; background: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+            <h4 id="form-evento-titulo">Novo Evento</h4>
+            <form id="evento-form">
+              <input type="hidden" id="evento-id">
+
+              <div class="form-group">
+                <label for="evento-titulo">Título *</label>
+                <input type="text" id="evento-titulo" required minlength="3">
+              </div>
+
+              <div class="form-group">
+                <label for="evento-descricao">Descrição *</label>
+                <textarea id="evento-descricao" rows="4" required minlength="10"></textarea>
+                <small>Descrição do evento que aparece na seção "Próximos Eventos"</small>
+              </div>
+
+              <div class="form-group">
+                <label for="evento-descricao-acao">Descrição para Ação Social (opcional)</label>
+                <textarea id="evento-descricao-acao" rows="4"></textarea>
+                <small>Descrição alternativa quando o evento aparecer na seção "Ações Sociais". Deixe em branco para
+                  usar a descrição padrão.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="evento-data">Data de Início *</label>
+                <input type="date" id="evento-data" required>
+              </div>
+
+              <div class="form-group">
+                <label for="evento-data-fim">Data de Término (opcional)</label>
+                <input type="date" id="evento-data-fim">
+                <small>Deixe em branco para eventos de um único dia. Para eventos duradouros ou permanentes, defina uma
+                  data futura.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="evento-horario">Horário</label>
+                <input type="time" id="evento-horario">
+              </div>
+
+              <div class="form-group">
+                <label for="evento-local">Local</label>
+                <input type="text" id="evento-local" value="A definir">
+              </div>
+
+              <div class="form-group">
+                <label for="evento-link">Link (opcional)</label>
+                <input type="url" id="evento-link">
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="evento-ativo" checked>
+                  Evento ativo (visível no site)
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="evento-proximo-evento">
+                  Exibir na seção "Próximos Eventos"
+                </label>
+                <small>Marque para mostrar este evento na seção de próximos eventos da página inicial.</small>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="evento-acao-social">
+                  Exibir na seção "Ações Sociais"
+                </label>
+                <small>Marque para mostrar este evento na seção de ações sociais da página inicial.</small>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="evento-mostrar-botao-inscricao">
+                  Exibir botão de inscrição
+                </label>
+                <small>Adiciona um botão "Inscreva-se" destacado quando o evento aparecer na página inicial.</small>
+              </div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <button type="button" id="btn-cancelar-evento" class="btn btn-small">Cancelar</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="lista-eventos" class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Data</th>
+                  <th>Local</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="eventos-table">
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 2rem;">Carregando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina. Todos os direitos
+        reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Modal Detalhes de Inscrição -->
+  <div id="inscricao-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Detalhes da Inscrição</h3>
+        <button type="button" id="fechar-inscricao-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body" id="inscricao-modal-body">
+        <!-- conteúdo preenchido via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="fechar-inscricao-modal-footer" class="btn btn-small">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      mainNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+
+</html>

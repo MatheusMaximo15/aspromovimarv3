@@ -1,0 +1,8 @@
+{
+  "watch": ["src", "public"],
+  "ignore": ["data/*.json", "*.log"],
+  "ext": "js,html,css",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

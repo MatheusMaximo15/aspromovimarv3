@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/magic-ui.css">
+</head>
+<body>
+  <header class="animate-fade-in">
+    <div class="container">
+      <h1>ASPROMOVIMAR</h1>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mainNav">
+        <a href="/" class="link-underline">Início</a>
+        <a href="#sobre" class="link-underline">Sobre</a>
+        <a href="#noticias" class="link-underline">Notícias</a>
+        <a href="#eventos" class="link-underline">Eventos</a>
+        <a href="#acoes" class="link-underline">Ações Sociais</a>
+        <a href="/admin" class="link-underline">Administração</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero gradient-animate">
+    <div class="container">
+      <h2 class="animate-fade-in delay-100">Bem-vindo à ASPROMOVIMAR</h2>
+      <p class="animate-fade-in delay-200">
+        Associação de Proprietários e Moradores do Vila Maria Regina - Trabalhando juntos por uma comunidade melhor
+      </p>
+      <p class="animate-fade-in delay-300" style="font-size: 1rem; margin-top: 1rem; opacity: 0.9;">
+        Representando os interesses da nossa comunidade desde sempre, promovendo
+        melhorias, eventos culturais e ações sociais para o bairro Vila Maria Regina.
+      </p>
+    </div>
+  </section>
+
+  <section id="sobre" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Sobre a ASPROMOVIMAR</h2>
+      <div class="about-content reveal">
+        <p>
+          A ASPROMOVIMAR (Associação de Proprietários e Moradores do Vila Maria Regina) é uma entidade sem fins lucrativos
+          que representa os interesses da comunidade do bairro Vila Maria Regina. Nossa missão é trabalhar
+          constantemente para melhorar a qualidade de vida dos moradores através de:
+        </p>
+        <div class="projects-grid" style="margin-top: 2rem;">
+          <div class="project-card card-hover spotlight reveal delay-100">
+            <h3 class="text-gradient">Ações Sociais</h3>
+            <p>Programas de apoio às famílias em situação de vulnerabilidade, parcerias com instituições e campanhas de solidariedade.</p>
+          </div>
+          <div class="project-card card-hover spotlight reveal delay-200">
+            <h3 class="text-gradient">Eventos Culturais</h3>
+            <p>Organização de festividades, apresentações culturais e atividades que fortalecem a identidade do bairro.</p>
+          </div>
+          <div class="project-card card-hover spotlight reveal delay-300">
+            <h3 class="text-gradient">Infraestrutura</h3>
+            <p>Reivindicações de melhorias urbanas, manutenção de espaços públicos e diálogo com o poder público.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="noticias" class="section" style="background-color: #f9fafb;">
+    <div class="container">
+      <h2 class="section-title reveal">Notícias e Comunicados</h2>
+      <div id="noticias-container" class="projects-grid">
+        <!-- Conteúdo carregado dinamicamente via JavaScript -->
+        <div class="project-card" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+          <p style="color: var(--text-light);">Carregando notícias...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="eventos" class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Próximos Eventos</h2>
+      <div id="eventos-container" class="projects-grid">
+        <!-- Conteúdo carregado dinamicamente via JavaScript -->
+        <div class="project-card" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+          <p style="color: var(--text-light);">Carregando eventos...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="acoes" class="section" style="background-color: #f9fafb;">
+    <div class="container">
+      <h2 class="section-title reveal">Ações Sociais Ativas</h2>
+      <div id="acoes-container" class="projects-grid">
+        <div class="project-card" style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+          <p style="color: var(--text-light);">Carregando ações sociais...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title reveal">Contato e Participação</h2>
+      <div class="about-content reveal">
+        <p>
+          A ASPROMOVIMAR é feita por moradores como você. Sua participação é fundamental
+          para fortalecer nossa comunidade. Entre em contato conosco para saber como você
+          pode contribuir ou para tirar dúvidas.
+        </p>
+        <p style="margin-top: 1.5rem;">
+          <strong>Participe das reuniões, contribua com ideias e ajude a construir
+          um Icaraí cada vez melhor!</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <div class="container">
+      <p>&copy; 2025 ASPROMOVIMAR - Associação de Proprietários e Moradores do Vila Maria Regina. Todos os direitos reservados.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+        Trabalhando pela nossa comunidade | Bairro Vila Maria Regina
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/animations.js"></script>
+  <script src="/js/content-loader.js"></script>
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      mainNav.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuToggle.classList.remove('active');
+        mainNav.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
