@@ -1,11 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const config = require('../config/config');
 
 class BeneficiarioRepository {
   constructor() {
-    this.dataPath = path.resolve(config.database.jsonPath);
+    this.dataPath = path.join(__dirname, '../../data/beneficiarios.json');
   }
 
   async _readFile() {
