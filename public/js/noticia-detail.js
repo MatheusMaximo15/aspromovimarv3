@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch(`/api/noticias/${noticiaId}`);
     const data = await response.json();
 
-    if (!data.sucesso || !data.data) {
-      mostrarErro(data.mensagem || 'Notícia não encontrada');
+    if (!data.success || !data.data) {
+      mostrarErro(data.message || 'Notícia não encontrada');
       return;
     }
 

@@ -44,7 +44,8 @@ class BlobRepository {
       const blob = await put(blobName, jsonData, {
         token: this.token,
         access: 'public',
-        contentType: 'application/json'
+        contentType: 'application/json',
+        addRandomSuffix: true
       });
       console.log(`✅ Blob ${blobName} salvo com sucesso`);
       return blob;
