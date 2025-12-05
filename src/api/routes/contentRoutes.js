@@ -3,6 +3,8 @@ const router = express.Router();
 const contentController = require('../controllers/contentController');
 const authMiddleware = require('../middleware/auth');
 
+console.log('✓ contentRoutes.js carregado');
+
 // Rotas públicas para listar conteúdo ativo
 router.get('/noticias/:id', contentController.buscarNoticiaPorId);
 router.get('/noticias', contentController.listarNoticias);
@@ -17,5 +19,12 @@ router.delete('/noticias/:id', authMiddleware, contentController.deletarNoticia)
 router.post('/eventos', authMiddleware, contentController.criarEvento);
 router.put('/eventos/:id', authMiddleware, contentController.atualizarEvento);
 router.delete('/eventos/:id', authMiddleware, contentController.deletarEvento);
+
+console.log('✓ Rotas de eventos registradas:', [
+  'GET /api/eventos',
+  'POST /api/eventos',
+  'PUT /api/eventos/:id',
+  'DELETE /api/eventos/:id'
+]);
 
 module.exports = router;

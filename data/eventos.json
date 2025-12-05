@@ -13,22 +13,5 @@
     "acao_social": true,
     "mostrar_botao_inscricao": true,
     "data_criacao": "2025-11-28T01:13:00.000Z"
-  },
-  {
-    "id": "366f2cc6-4c52-402d-a7c9-9ecb56c18f68",
-    "titulo": "Futebol Juvenil",
-    "descricao": "Futebol Juvenil Sub 17 para jovens do Bairro",
-    "descricao_acao_social": "Inscreva-se para o Futebol Juvenil Sub 17 para jovens do Bairro",
-    "data_evento": "2025-11-30",
-    "data_evento_fim": null,
-    "horario": "",
-    "local": "Quadra de Futebol",
-    "link": null,
-    "ativo": true,
-    "proximo_evento": true,
-    "acao_social": true,
-    "mostrar_botao_inscricao": true,
-    "data_criacao": "2025-11-28T12:16:06.743Z",
-    "data_atualizacao": "2025-11-28T12:17:07.966Z"
   }
 ]

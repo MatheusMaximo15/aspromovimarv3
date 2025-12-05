@@ -18,6 +18,8 @@ app.use('/api', beneficiarioRoutes);
 app.use('/api', contentRoutes);
 app.use('/api', inscricaoRoutes);
 
+console.log('✓ Todas as rotas API registradas');
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
