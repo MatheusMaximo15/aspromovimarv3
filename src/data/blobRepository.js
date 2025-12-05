@@ -12,10 +12,11 @@ class BlobRepository {
    */
   async _readBlob(blobName) {
     try {
+      // Buscar todos os blobs com esse prefixo (pode haver versões antigas com sufixo)
       const { blobs } = await list({
         token: this.token,
         prefix: blobName,
-        limit: 1
+        limit: 100
       });
 
       if (blobs.length === 0) {
@@ -24,8 +25,20 @@ class BlobRepository {
         return [];
       }
 
-      const response = await fetch(blobs[0].url);
+      // Se houver múltiplos blobs, ordenar por data de upload (mais recente primeiro)
+      const sortedBlobs = blobs.sort((a, b) =>
+        new Date(b.uploadedAt) - new Date(a.uploadedAt)
+      );
+
+      // Pegar o blob mais recente
+      const mostRecentBlob = sortedBlobs[0];
+      console.log(`📖 Lendo blob: ${mostRecentBlob.pathname} (total: ${blobs.length} blobs encontrados)`);
+
+      const response = await fetch(mostRecentBlob.url);
       const data = await response.json();
+
+      console.log(`📊 Dados lidos: ${Array.isArray(data) ? data.length + ' items' : 'não é array'}`);
+
       return data;
     } catch (error) {
       console.error(`Erro ao ler blob ${blobName}:`, error);
