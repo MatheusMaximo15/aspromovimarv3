@@ -117,11 +117,14 @@ class ContentService {
     const eventoData = {
       titulo: dados.titulo.trim(),
       descricao: dados.descricao.trim(),
+      descricao_acao_social: dados.descricao_acao_social ? dados.descricao_acao_social.trim() : null,
       data_evento: dados.data_evento,
+      data_evento_fim: dados.data_evento_fim || null,
       horario: dados.horario || '',
       local: dados.local || 'A definir',
       link: dados.link || null,
       ativo: dados.ativo !== false,
+      proximo_evento: dados.proximo_evento !== false,
       acao_social: dados.acao_social === true,
       mostrar_botao_inscricao: dados.mostrar_botao_inscricao === true
     };

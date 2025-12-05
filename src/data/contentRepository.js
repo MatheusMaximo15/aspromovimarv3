@@ -133,8 +133,8 @@ class ContentRepository {
       horario: eventoData.horario || '',
       local: eventoData.local || 'A definir',
       link: eventoData.link || null,
-      ativo: eventoData.ativo === true,
-      proximo_evento: eventoData.proximo_evento === true,
+      ativo: eventoData.ativo !== false,
+      proximo_evento: eventoData.proximo_evento !== false,
       acao_social: eventoData.acao_social === true,
       mostrar_botao_inscricao: eventoData.mostrar_botao_inscricao === true,
       data_criacao: new Date().toISOString()
