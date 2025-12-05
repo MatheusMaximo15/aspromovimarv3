@@ -1,33 +1,16 @@
-const fs = require('fs').promises;
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const BlobRepository = require('./blobRepository');
 
-class ContentRepository {
+class ContentRepository extends BlobRepository {
   constructor() {
-    this.noticiasPath = path.join(__dirname, '../../data/noticias.json');
-    this.eventosPath = path.join(__dirname, '../../data/eventos.json');
-  }
-
-  async _readFile(filePath) {
-    try {
-      const data = await fs.readFile(filePath, 'utf-8');
-      return JSON.parse(data);
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        await this._writeFile(filePath, []);
-        return [];
-      }
-      throw error;
-    }
-  }
-
-  async _writeFile(filePath, data) {
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    super();
+    this.NOTICIAS_BLOB = 'noticias.json';
+    this.EVENTOS_BLOB = 'eventos.json';
   }
 
   // NOTÍCIAS
   async getAllNoticias() {
-    const noticias = await this._readFile(this.noticiasPath);
+    const noticias = await this._readBlob(this.NOTICIAS_BLOB);
     return noticias.sort((a, b) => new Date(b.data) - new Date(a.data));
   }
 
@@ -38,12 +21,12 @@ class ContentRepository {
   }
 
   async getNoticiaById(id) {
-    const noticias = await this._readFile(this.noticiasPath);
+    const noticias = await this._readBlob(this.NOTICIAS_BLOB);
     return noticias.find(n => n.id === id);
   }
 
   async createNoticia(noticiaData) {
-    const noticias = await this._readFile(this.noticiasPath);
+    const noticias = await this._readBlob(this.NOTICIAS_BLOB);
 
     const novaNoticia = {
       id: uuidv4(),
@@ -57,12 +40,12 @@ class ContentRepository {
     };
 
     noticias.push(novaNoticia);
-    await this._writeFile(this.noticiasPath, noticias);
+    await this._writeBlob(this.NOTICIAS_BLOB, noticias);
     return novaNoticia;
   }
 
   async updateNoticia(id, updateData) {
-    const noticias = await this._readFile(this.noticiasPath);
+    const noticias = await this._readBlob(this.NOTICIAS_BLOB);
     const index = noticias.findIndex(n => n.id === id);
 
     if (index === -1) {
@@ -77,25 +60,25 @@ class ContentRepository {
       data_atualizacao: new Date().toISOString()
     };
 
-    await this._writeFile(this.noticiasPath, noticias);
+    await this._writeBlob(this.NOTICIAS_BLOB, noticias);
     return noticias[index];
   }
 
   async deleteNoticia(id) {
-    const noticias = await this._readFile(this.noticiasPath);
+    const noticias = await this._readBlob(this.NOTICIAS_BLOB);
     const filtered = noticias.filter(n => n.id !== id);
 
     if (noticias.length === filtered.length) {
       throw new Error('Notícia não encontrada');
     }
 
-    await this._writeFile(this.noticiasPath, filtered);
+    await this._writeBlob(this.NOTICIAS_BLOB, filtered);
     return true;
   }
 
   // EVENTOS
   async getAllEventos() {
-    const eventos = await this._readFile(this.eventosPath);
+    const eventos = await this._readBlob(this.EVENTOS_BLOB);
     return eventos.sort((a, b) => new Date(a.data_evento) - new Date(b.data_evento));
   }
 
@@ -121,7 +104,7 @@ class ContentRepository {
   }
 
   async createEvento(eventoData) {
-    const eventos = await this._readFile(this.eventosPath);
+    const eventos = await this._readBlob(this.EVENTOS_BLOB);
 
     const novoEvento = {
       id: uuidv4(),
@@ -141,12 +124,12 @@ class ContentRepository {
     };
 
     eventos.push(novoEvento);
-    await this._writeFile(this.eventosPath, eventos);
+    await this._writeBlob(this.EVENTOS_BLOB, eventos);
     return novoEvento;
   }
 
   async updateEvento(id, updateData) {
-    const eventos = await this._readFile(this.eventosPath);
+    const eventos = await this._readBlob(this.EVENTOS_BLOB);
     const index = eventos.findIndex(e => e.id === id);
 
     if (index === -1) {
@@ -161,19 +144,19 @@ class ContentRepository {
       data_atualizacao: new Date().toISOString()
     };
 
-    await this._writeFile(this.eventosPath, eventos);
+    await this._writeBlob(this.EVENTOS_BLOB, eventos);
     return eventos[index];
   }
 
   async deleteEvento(id) {
-    const eventos = await this._readFile(this.eventosPath);
+    const eventos = await this._readBlob(this.EVENTOS_BLOB);
     const filtered = eventos.filter(e => e.id !== id);
 
     if (eventos.length === filtered.length) {
       throw new Error('Evento não encontrado');
     }
 
-    await this._writeFile(this.eventosPath, filtered);
+    await this._writeBlob(this.EVENTOS_BLOB, filtered);
     return true;
   }
 }

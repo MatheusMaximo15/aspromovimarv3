@@ -1,31 +1,14 @@
-const fs = require('fs').promises;
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const BlobRepository = require('./blobRepository');
 
-class InscricaoRepository {
+class InscricaoRepository extends BlobRepository {
   constructor() {
-    this.inscricoesPath = path.join(__dirname, '../../data/inscricoes.json');
-  }
-
-  async _readFile(filePath) {
-    try {
-      const data = await fs.readFile(filePath, 'utf-8');
-      return JSON.parse(data);
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        await this._writeFile(filePath, []);
-        return [];
-      }
-      throw error;
-    }
-  }
-
-  async _writeFile(filePath, data) {
-    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    super();
+    this.INSCRICOES_BLOB = 'inscricoes.json';
   }
 
   async getAllInscricoes() {
-    const inscricoes = await this._readFile(this.inscricoesPath);
+    const inscricoes = await this._readBlob(this.INSCRICOES_BLOB);
     return inscricoes.sort((a, b) => new Date(b.data_inscricao) - new Date(a.data_inscricao));
   }
 
@@ -45,17 +28,17 @@ class InscricaoRepository {
   }
 
   async findInscricaoByCPF(cpf) {
-    const inscricoes = await this._readFile(this.inscricoesPath);
+    const inscricoes = await this._readBlob(this.INSCRICOES_BLOB);
     return inscricoes.find(i => i.cpf === cpf);
   }
 
   async findInscricaoByEventoAndCPF(eventoId, cpf) {
-    const inscricoes = await this._readFile(this.inscricoesPath);
+    const inscricoes = await this._readBlob(this.INSCRICOES_BLOB);
     return inscricoes.find(i => i.evento_id === eventoId && i.cpf === cpf);
   }
 
   async createInscricao(inscricaoData) {
-    const inscricoes = await this._readFile(this.inscricoesPath);
+    const inscricoes = await this._readBlob(this.INSCRICOES_BLOB);
 
     const novaInscricao = {
       id: uuidv4(),
@@ -74,12 +57,12 @@ class InscricaoRepository {
     };
 
     inscricoes.push(novaInscricao);
-    await this._writeFile(this.inscricoesPath, inscricoes);
+    await this._writeBlob(this.INSCRICOES_BLOB, inscricoes);
     return novaInscricao;
   }
 
   async updateInscricao(id, updateData) {
-    const inscricoes = await this._readFile(this.inscricoesPath);
+    const inscricoes = await this._readBlob(this.INSCRICOES_BLOB);
     const index = inscricoes.findIndex(i => i.id === id);
 
     if (index === -1) {
@@ -94,19 +77,19 @@ class InscricaoRepository {
       data_atualizacao: new Date().toISOString()
     };
 
-    await this._writeFile(this.inscricoesPath, inscricoes);
+    await this._writeBlob(this.INSCRICOES_BLOB, inscricoes);
     return inscricoes[index];
   }
 
   async deleteInscricao(id) {
-    const inscricoes = await this._readFile(this.inscricoesPath);
+    const inscricoes = await this._readBlob(this.INSCRICOES_BLOB);
     const filtered = inscricoes.filter(i => i.id !== id);
 
     if (inscricoes.length === filtered.length) {
       throw new Error('Inscrição não encontrada');
     }
 
-    await this._writeFile(this.inscricoesPath, filtered);
+    await this._writeBlob(this.INSCRICOES_BLOB, filtered);
     return true;
   }
 

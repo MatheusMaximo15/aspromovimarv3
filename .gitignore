@@ -7,6 +7,9 @@ package-lock.json
 .env.local
 .env.*.local
 
+# Vercel
+.vercel
+
 # Logs
 logs
 *.log

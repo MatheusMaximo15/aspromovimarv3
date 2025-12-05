@@ -1,39 +1,22 @@
-const fs = require('fs').promises;
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const BlobRepository = require('./blobRepository');
 
-class BeneficiarioRepository {
+class BeneficiarioRepository extends BlobRepository {
   constructor() {
-    this.dataPath = path.join(__dirname, '../../data/beneficiarios.json');
-  }
-
-  async _readFile() {
-    try {
-      const data = await fs.readFile(this.dataPath, 'utf-8');
-      return JSON.parse(data);
-    } catch (error) {
-      if (error.code === 'ENOENT') {
-        await this._writeFile([]);
-        return [];
-      }
-      throw error;
-    }
-  }
-
-  async _writeFile(data) {
-    await fs.writeFile(this.dataPath, JSON.stringify(data, null, 2), 'utf-8');
+    super();
+    this.BENEFICIARIOS_BLOB = 'beneficiarios.json';
   }
 
   async getAllBeneficiarios() {
-    return await this._readFile();
+    return await this._readBlob(this.BENEFICIARIOS_BLOB);
   }
 
   async saveBeneficiarios(beneficiarios) {
-    await this._writeFile(beneficiarios);
+    await this._writeBlob(this.BENEFICIARIOS_BLOB, beneficiarios);
   }
 
   async createBeneficiario(beneficiarioData) {
-    const beneficiarios = await this._readFile();
+    const beneficiarios = await this._readBlob(this.BENEFICIARIOS_BLOB);
 
     const existingByCPF = beneficiarios.find(b => b.cpf === beneficiarioData.cpf);
     if (existingByCPF) {
@@ -49,23 +32,23 @@ class BeneficiarioRepository {
     };
 
     beneficiarios.push(newBeneficiario);
-    await this._writeFile(beneficiarios);
+    await this._writeBlob(this.BENEFICIARIOS_BLOB, beneficiarios);
 
     return newBeneficiario;
   }
 
   async findBeneficiarioByCPF(cpf) {
-    const beneficiarios = await this._readFile();
+    const beneficiarios = await this._readBlob(this.BENEFICIARIOS_BLOB);
     return beneficiarios.find(b => b.cpf === cpf);
   }
 
   async findBeneficiarioById(id) {
-    const beneficiarios = await this._readFile();
+    const beneficiarios = await this._readBlob(this.BENEFICIARIOS_BLOB);
     return beneficiarios.find(b => b.id === id);
   }
 
   async updateBeneficiario(id, updateData) {
-    const beneficiarios = await this._readFile();
+    const beneficiarios = await this._readBlob(this.BENEFICIARIOS_BLOB);
     const index = beneficiarios.findIndex(b => b.id === id);
 
     if (index === -1) {
@@ -79,19 +62,19 @@ class BeneficiarioRepository {
       data_cadastro: beneficiarios[index].data_cadastro
     };
 
-    await this._writeFile(beneficiarios);
+    await this._writeBlob(this.BENEFICIARIOS_BLOB, beneficiarios);
     return beneficiarios[index];
   }
 
   async deleteBeneficiario(id) {
-    const beneficiarios = await this._readFile();
+    const beneficiarios = await this._readBlob(this.BENEFICIARIOS_BLOB);
     const filteredBeneficiarios = beneficiarios.filter(b => b.id !== id);
 
     if (beneficiarios.length === filteredBeneficiarios.length) {
       throw new Error('Beneficiário não encontrado');
     }
 
-    await this._writeFile(filteredBeneficiarios);
+    await this._writeBlob(this.BENEFICIARIOS_BLOB, filteredBeneficiarios);
     return true;
   }
 }
