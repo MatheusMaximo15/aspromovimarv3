@@ -1,4 +1,4 @@
-const { put, list } = require('@vercel/blob');
+const { put, list, del } = require('@vercel/blob');
 
 class BlobRepository {
   constructor() {
@@ -40,15 +40,28 @@ class BlobRepository {
    */
   async _writeBlob(blobName, data) {
     try {
+      // Primeiro, deletar o blob existente (se houver)
+      const { blobs } = await list({
+        token: this.token,
+        prefix: blobName,
+        limit: 100
+      });
+
+      // Deletar todos os blobs com esse prefixo
+      for (const blob of blobs) {
+        await del(blob.url, { token: this.token });
+        console.log(`🗑️  Blob antigo deletado: ${blob.pathname}`);
+      }
+
+      // Agora criar o novo blob
       const jsonData = JSON.stringify(data, null, 2);
-      const blob = await put(blobName, jsonData, {
+      const newBlob = await put(blobName, jsonData, {
         token: this.token,
         access: 'public',
-        contentType: 'application/json',
-        addRandomSuffix: true
+        contentType: 'application/json'
       });
       console.log(`✅ Blob ${blobName} salvo com sucesso`);
-      return blob;
+      return newBlob;
     } catch (error) {
       console.error(`Erro ao escrever blob ${blobName}:`, error);
       throw error;
